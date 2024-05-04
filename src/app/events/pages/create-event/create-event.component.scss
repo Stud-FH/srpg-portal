@@ -1,0 +1,96 @@
+:host {
+  display: contents;
+}
+
+[toolbar] {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 600px;
+}
+
+[page] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+}
+
+form,
+mat-stepper {
+  width: 100%;
+  max-width: 600px;
+}
+
+.step-container {
+  display: grid;
+  padding-top: 16px;
+
+  &.col-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.stepper-control {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+mat-slide-toggle {
+  margin-bottom: 16px;
+}
+
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: max-content;
+  margin-bottom: 16px;
+  mat-radio-button {
+    position: relative;
+    padding-right: 32px;
+    width: 100%;
+  }
+  .option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  mat-icon {
+    position: absolute;
+    right: 0;
+  }
+}
+
+mat-button-toggle-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 22px;
+  .option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  mat-icon {
+    margin-left: 8px;
+  }
+}
+
+mat-selection-list {
+  mat-list-option {
+    mat-icon {
+      margin: 4px 16px -4px 0;
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 16px;
+}

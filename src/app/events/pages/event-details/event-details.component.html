@@ -1,0 +1,223 @@
+<app-page
+  [header]="((event$ | async)?.type ?? 'Event') + ' Details'"
+  [url]="'/event/' + ((event$ | async)?.id ?? '')"
+  navIcon="arrow_back"
+  [navRouterLink]="['/upcoming']"
+>
+  <div page>
+    <ng-container *ngIf="event$ | async as event; else spinner">
+      <h1 class="gray">{{ event.title }}</h1>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Description</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="event" class="image" [style]="imageStyle(event)"></div>
+          <p class="description">{{ event.description }}</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>When & Where</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <span class="row-2">
+            <mat-form-field>
+              <mat-label>Region</mat-label>
+              <input matInput readonly [value]="event?.region" />
+            </mat-form-field>
+            <mat-form-field
+              [matTooltip]="
+                event?.locationPrivate ? 'revealed upon registration' : ''
+              "
+            >
+              <mat-label>Location</mat-label>
+              <input matInput readonly [value]="event?.location" />
+            </mat-form-field>
+          </span>
+          <span class="row-2">
+            <mat-form-field>
+              <mat-label>Date</mat-label>
+              <input matInput readonly [value]="event?.date" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Time</mat-label>
+              <input matInput readonly [value]="event?.time" />
+            </mat-form-field>
+          </span>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card *ngIf="currentUser$ | async as currentUser; else spinner">
+        <mat-card-header>
+          <mat-card-title>People</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <table class="people">
+            <tr
+              *appResolveUser="event.participantIds; let user"
+              class="hoverable"
+            >
+              <td>
+                <app-user-avatar
+                  [user]="user"
+                  [role]="
+                    user.id === event.organizerId ? 'organizer' : undefined
+                  "
+                ></app-user-avatar>
+              </td>
+              <td>
+                <strong> {{ isSelf(user) ? "You" : user.name }} </strong>
+                {{
+                  user.id === event.organizerId ? " (Game Master)" : "(Player)"
+                }}
+              </td>
+              <td class="actions">
+                <span [ngSwitch]="true" class="h-spread">
+                  <button
+                    mat-stroked-button
+                    *ngSwitchCase="isSelf(user)"
+                    type="button"
+                    (click)="leave(user, event)"
+                  >
+                    Leave <mat-icon>logout</mat-icon>
+                  </button>
+                  <button
+                    mat-stroked-button
+                    *ngSwitchCase="!isSelf(user) && user.aboutMe != null"
+                    type="button"
+                    (click)="openAboutMe(user)"
+                  >
+                    About Me <mat-icon>person</mat-icon>
+                  </button>
+                  <span *ngSwitchDefault></span>
+                  <button
+                    mat-icon-button
+                    *ngIf="!isSelf(user)"
+                    matTooltip="Start a Conversation"
+                    class="reveal-on-hover"
+                  >
+                    <mat-icon>chat</mat-icon>
+                  </button>
+                </span>
+              </td>
+            </tr>
+            <tr
+              *appResolveUser="event.waitingListIds; let user"
+              class="hoverable"
+            >
+              <td>
+                <app-user-avatar [user]="user"></app-user-avatar>
+              </td>
+              <td>
+                <strong> {{ isSelf(user) ? "You" : user.name }} </strong>
+                (Waiting)
+              </td>
+              <td class="actions">
+                <span [ngSwitch]="true" class="h-spread">
+                  <button
+                    mat-stroked-button
+                    *ngSwitchCase="isSelf(user)"
+                    type="button"
+                    (click)="leave(user, event)"
+                  >
+                    Leave Waiting List <mat-icon>logout</mat-icon>
+                  </button>
+                  <button
+                    mat-stroked-button
+                    *ngSwitchCase="!isSelf(user) && user.aboutMe != null"
+                    type="button"
+                    (click)="openAboutMe(user)"
+                  >
+                    About Me <mat-icon>person</mat-icon>
+                  </button>
+                  <span *ngSwitchDefault></span>
+                  <button
+                    mat-icon-button
+                    *ngIf="!isSelf(user)"
+                    matTooltip="Start a Conversation"
+                    class="reveal-on-hover"
+                  >
+                    <mat-icon>chat</mat-icon>
+                  </button>
+                </span>
+              </td>
+            </tr>
+            <tr *ngIf="currentUser; else spinnerSmall">
+              <td>
+                <app-user-avatar-placeholder
+                  *ngIf="availableSlots(event) > 0"
+                  [overlayText]="availableSlots(event) + ''"
+                  [tooltip]="availableSlots(event) + ' free spots left'"
+                ></app-user-avatar-placeholder>
+              </td>
+              <td>
+                <span *ngIf="availableSlots(event) > 0; else eventFullText">
+                  {{ availableSlots(event) }} free spots left
+                </span>
+                <ng-template #eventFullText>
+                  <span>Event is full</span>
+                </ng-template>
+              </td>
+              <td class="actions">
+                <span
+                  [ngSwitch]="participationStatus(currentUser, event)"
+                  class="h-spread"
+                >
+                  <span *ngSwitchCase="'loading'" class="center"
+                    ><mat-spinner [diameter]="32"></mat-spinner
+                  ></span>
+                  <button
+                    mat-raised-button
+                    *ngSwitchCase="'available'"
+                    color="accent"
+                    (click)="join(currentUser, event)"
+                  >
+                    Join
+                  </button>
+                  <button
+                    mat-stroked-button
+                    *ngSwitchCase="'full'"
+                    (click)="joinWaitingList(currentUser, event)"
+                  >
+                    Enter Waiting List
+                  </button>
+                  <button mat-raised-button *ngSwitchCase="'joined'" disabled>
+                    You are Signed Up!
+                  </button>
+                  <button mat-raised-button *ngSwitchCase="'waiting'" disabled>
+                    You are on the Waiting List
+                  </button>
+                </span>
+              </td>
+            </tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card *ngIf="event.tags && event.tags.length > 0">
+        <mat-card-header>
+          <mat-card-title>Tags</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-chip-set>
+            <mat-chip *ngFor="let tag of event.tags">{{ tag }}</mat-chip>
+          </mat-chip-set>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+  </div>
+</app-page>
+
+<ng-template #spinnerSmall>
+  <span class="center">
+    <mat-spinner [diameter]="32"></mat-spinner>
+  </span>
+</ng-template>
+
+<ng-template #spinner>
+  <span class="center">
+    <mat-spinner></mat-spinner>
+  </span>
+</ng-template>

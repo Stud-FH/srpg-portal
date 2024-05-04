@@ -1,0 +1,27 @@
+<app-page>
+  <div page>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Pseudo Login</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="row">
+          <mat-label>Select your User:</mat-label>
+        </span>
+        <mat-selection-list [multiple]="false" [hideSingleSelectionIndicator]="true" (selectionChange)="login($event.options[0].value)">
+          <mat-list-option *ngFor="let user of users ?? []" [value]="user">
+            <span class="option">
+              <app-user-avatar [user]="user"></app-user-avatar>
+              {{user.name}}
+            </span>
+          </mat-list-option>
+        </mat-selection-list>
+        <ng-template #spinner>
+          <span class="spinner-container">
+            <mat-spinner [diameter]="48"></mat-spinner>
+          </span>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</app-page>

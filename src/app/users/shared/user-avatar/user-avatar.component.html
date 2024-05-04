@@ -1,0 +1,9 @@
+<mat-spinner *ngIf="!user" [diameter]="32"></mat-spinner>
+<div
+  *ngIf="user"
+  class="avatar-image"
+  [style]="imageStyle"
+  [matTooltip]="user.name"
+>
+  {{ user.name }}
+</div>

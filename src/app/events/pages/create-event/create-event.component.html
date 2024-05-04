@@ -1,0 +1,274 @@
+<app-page
+  [header]="(type.value ?? 'Event') + ' Setup'"
+  url="/create-event"
+  navIcon="arrow_back"
+  [navRouterLink]="['/upcoming']"
+>
+  <div page>
+    <mat-stepper orientation="vertical">
+      <mat-step>
+        <span class="step-container">
+          <ng-template matStepLabel>Drafts</ng-template>
+          <mat-selection-list
+            *ngIf="currentUser$ | async as currentUser"
+            [multiple]="false"
+            [hideSingleSelectionIndicator]="true"
+            [formControl]="draft"
+          >
+            <mat-list-option
+              *ngFor="let draft of currentUser.eventDrafts"
+              [value]="draft"
+            >
+              <span class="h-align">
+                <mat-icon>{{ typeIcon(draft.type) }}</mat-icon>
+                <span *ngIf="draft.type"> {{ draft.type }}: </span>
+                <span *ngIf="draft.title">
+                  {{ draft.title }}
+                </span>
+              </span>
+            </mat-list-option>
+            <mat-list-option [value]="null">
+              <span class="h-align">
+                <mat-icon> add </mat-icon>
+                <span> Blank </span>
+              </span>
+            </mat-list-option>
+          </mat-selection-list>
+        </span>
+        <div class="stepper-control">
+          <span></span>
+          <button mat-button matStepperNext type="button">Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step
+        [stepControl]="basicsGroup"
+        [hasError]="!basicsGroup.pristine && basicsGroup.invalid"
+        [completed]="!basicsGroup.pristine && !basicsGroup.invalid"
+      >
+        <ng-template matStepLabel>Basics</ng-template>
+
+        <span class="step-container">
+          <mat-button-toggle-group name="type" [formControl]="type">
+            <mat-button-toggle value="One-Shot">
+              <span class="option">
+                One-Shot
+                <mat-icon> bolt </mat-icon>
+              </span>
+            </mat-button-toggle>
+            <mat-button-toggle value="Campaign">
+              <span class="option">
+                Campaign
+                <mat-icon> history_edu </mat-icon>
+              </span>
+            </mat-button-toggle>
+            <mat-button-toggle value="Social">
+              <span class="option">
+                Social
+                <mat-icon> mood </mat-icon>
+              </span>
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+          <mat-form-field>
+            <mat-label>Region</mat-label>
+            <mat-select [formControl]="region">
+              <mat-option [value]="null">-- Select One --</mat-option>
+              <mat-option *ngFor="let region of Regions" [value]="region">{{
+                region
+              }}</mat-option>
+            </mat-select> </mat-form-field
+          ><mat-form-field>
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="picker" [formControl]="date" />
+            <mat-hint>{{ dateFormat }}</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Time</mat-label>
+            <input matInput [formControl]="time" type="time" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Duration (hours)</mat-label>
+            <input
+              matInput
+              [formControl]="duration"
+              type="number"
+              [step]="0.5"
+            />
+          </mat-form-field>
+          <mat-form-field
+            *ngIf="type.value === 'Campaign' || type.value === 'One-Shot'"
+          >
+            <mat-label>Game System</mat-label>
+            <input
+              matInput
+              [matAutocomplete]="gameSystemAutocomplete"
+              [formControl]="gameSystem"
+            />
+            <mat-autocomplete #gameSystemAutocomplete>
+              <mat-option *ngFor="let option of gameSystemOptions">
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field *ngIf="type.value === 'Social'">
+            <mat-label>Activity</mat-label>
+            <input
+              matInput
+              [matAutocomplete]="activityAutocomplete"
+              [formControl]="activity"
+            />
+            <mat-autocomplete #activityAutocomplete>
+              <mat-option *ngFor="let option of activityOptions">
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </span>
+        <div class="stepper-control">
+          <button mat-button matStepperPrevious type="button">Back</button>
+          <button mat-button matStepperNext type="button">Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step
+        [stepControl]="locationGroup"
+        [hasError]="!locationGroup.pristine && locationGroup.invalid"
+        [completed]="!locationGroup.pristine && !locationGroup.invalid"
+      >
+        <ng-template matStepLabel>Location</ng-template>
+        <span class="step-container">
+          <mat-slide-toggle
+            matTooltip="activate if you only want to hide the location from non-participants"
+            [formControl]="locationPrivate"
+          >
+            Private
+          </mat-slide-toggle>
+          <mat-form-field>
+            <mat-label>Location</mat-label>
+            <input
+              matInput
+              [matAutocomplete]="locationAutocomplete"
+              [formControl]="location"
+            />
+            <mat-autocomplete #locationAutocomplete>
+              <mat-option *ngFor="let option of locationOptions">
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </span>
+        <div class="stepper-control">
+          <button mat-button matStepperPrevious type="button">Back</button>
+          <button mat-button matStepperNext type="button">Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step
+        [stepControl]="announcementGroup"
+        [hasError]="!announcementGroup.pristine && announcementGroup.invalid"
+        [completed]="!announcementGroup.pristine && !announcementGroup.invalid"
+      >
+        <ng-template matStepLabel>Announcement</ng-template>
+        <span class="step-container">
+          <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input matInput [formControl]="title" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              [formControl]="description"
+              placeholder="What can your participants expect?"
+            ></textarea>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Image</mat-label>
+            <input matInput [formControl]="imageUrl" />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="openImageSelectionDialog()"
+            >
+              <mat-icon>collections</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Tags</mat-label>
+            <mat-chip-grid #chipGrid aria-label="Enter tags">
+              <mat-chip-row
+                *ngFor="let tag of tags.value"
+                (removed)="removeTag(tag)"
+              >
+                {{ tag }}
+                <button matChipRemove [attr.aria-label]="'remove ' + tag">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+              <input
+                placeholder="New tag..."
+                [matChipInputFor]="chipGrid"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="true"
+                (matChipInputTokenEnd)="addTag($event)"
+              />
+            </mat-chip-grid>
+          </mat-form-field>
+        </span>
+        <div class="stepper-control">
+          <button mat-button matStepperPrevious type="button">Back</button>
+          <button mat-button matStepperNext type="button">Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step
+        [stepControl]="peopleGroup"
+        [hasError]="!peopleGroup.pristine && peopleGroup.invalid"
+        [completed]="!peopleGroup.pristine && !peopleGroup.invalid"
+      >
+        <ng-template matStepLabel>People</ng-template>
+        <span class="step-container">
+          <mat-form-field>
+            <mat-label>Participants Limit</mat-label>
+            <input
+              matInput
+              [formControl]="participantsLimit"
+              type="number"
+              [step]="1"
+            />
+          </mat-form-field>
+        </span>
+        <div class="stepper-control">
+          <button mat-button matStepperPrevious type="button">Back</button>
+          <button mat-button matStepperNext type="button">Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step>
+        <span class="step-container">
+          <ng-template matStepLabel>Confirm</ng-template>
+        </span>
+        <div class="stepper-control">
+          <button mat-button matStepperPrevious type="button">Back</button>
+          <button
+            mat-raised-button
+            color="accent"
+            type="button"
+            [disabled]="event.invalid"
+            (click)="publish()"
+          >
+            PUBLISH
+          </button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+    <span class="buttons"> </span>
+  </div>
+</app-page>

@@ -1,0 +1,14 @@
+<div class="avatar-image"></div>
+<div class="container" [matTooltip]="tooltip">
+  <a *ngIf="href; else static" [href]="href">
+    <strong class="overlay">
+      {{ overlayText }}
+    </strong>
+  </a>
+
+  <ng-template #static>
+    <strong class="overlay">
+      {{ overlayText }}
+    </strong>
+  </ng-template>
+</div>

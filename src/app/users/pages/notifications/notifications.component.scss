@@ -1,0 +1,75 @@
+:host {
+  display: contents;
+}
+
+[page] {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+mat-panel-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+mat-slide-toggle {
+  margin-bottom: 22px;
+}
+
+mat-button-toggle-group {
+  &.calendar-filter-mode {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  margin-bottom: 22px;
+  .option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  mat-icon {
+    margin-left: 8px;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card.people {
+  mat-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+mat-list-item {
+  height: fit-content !important;
+}
+
+.interest-row {
+  .delete-button {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  &:hover {
+    .delete-button {
+      opacity: 1;
+    }
+  }
+}

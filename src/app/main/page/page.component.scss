@@ -1,0 +1,69 @@
+:host {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-toolbar {
+  position: sticky;
+  flex-shrink: 0;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #fe1745 0, #0b57f1);
+  color: white;
+
+  .container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+mat-drawer-container {
+  flex-shrink: 1;
+  flex-grow: 1;
+  flex-basis: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+
+  mat-drawer-content {
+    width: 100%;
+    max-width: 600px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    scrollbar-color: #fe1745 transparent;
+  }
+
+  mat-drawer {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 300px;
+  }
+}
+
+.user-control {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+  width: 268px;
+  .user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+  }
+}

@@ -1,0 +1,43 @@
+<app-page url="/upcoming" navIcon="arrow_back" [navRouterLink]="['/']">
+  <div class="spinner-container" *ngIf="!events">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div page>
+    <a mat-stroked-button [routerLink]="['/create-event']">
+      Run your own Game!
+      <mat-icon>add_circle</mat-icon>
+    </a>
+    <a
+      mat-button
+      *ngFor="let event of events"
+      [routerLink]="['/event', event.id]"
+    >
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ event.title }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ event.type }} | {{ event.region }} | {{ event.date }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="image" [style]="imageStyle(event)"></div>
+          <mat-chip-set class="tags">
+            <mat-chip *ngFor="let tag of event.tags">{{ tag }}</mat-chip>
+          </mat-chip-set>
+          <span class="people">
+            <app-user-avatar
+              *appResolveUser="event.participantIds; let user"
+              [user]="user"
+              [role]="user.id === event.organizerId ? 'organizer' : undefined"
+            ></app-user-avatar>
+            <app-user-avatar-placeholder
+              *ngIf="availableSlots(event) as availableSlots"
+              [overlayText]="'+' + availableSlots"
+              [tooltip]="availableSlots + ' free spots left'"
+            ></app-user-avatar-placeholder>
+          </span>
+        </mat-card-content>
+      </mat-card>
+    </a>
+  </div>
+</app-page>

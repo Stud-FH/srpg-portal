@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>About {{ user.name }}</h1>
+<mat-dialog-content>
+  <span class="h-align">
+    <app-user-avatar [user]="user"></app-user-avatar>
+    <p>
+      {{ user.aboutMe ?? "Nothing to see here..." }}
+    </p>
+  </span>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Ok</button>
+</mat-dialog-actions>

@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Select Image</h1>
+
+<mat-dialog-content>
+  <button mat-icon-button *ngIf="pageIndex$.value > 0" (click)="navigateBefore()"><mat-icon>navigate_before</mat-icon></button>
+  <div class="container">
+    <mat-spinner *ngIf="!page"></mat-spinner>
+    <button mat-button *ngFor="let image of (page ?? [])" class="image" [style]="{backgroundImage: 'url('+image+')'}" (click)="select(image)">{{image}}</button>
+  </div>
+  <button mat-icon-button (click)="navigateNext()"><mat-icon>navigate_next</mat-icon></button>
+</mat-dialog-content>

@@ -1,0 +1,67 @@
+<mat-toolbar>
+  <div class="container">
+    <a mat-icon-button [disabled]="disableNav" [routerLink]="navRouterLink">
+      <mat-icon *ngIf="!disableNav">{{ navIcon }}</mat-icon>
+    </a>
+    <h1>
+      {{ header }}
+    </h1>
+    <button
+      mat-icon-button
+      type="button"
+      [disabled]="disableDrawer"
+      (click)="drawer.toggle()"
+    >
+      <mat-icon *ngIf="!disableDrawer">menu</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<mat-drawer-container [hasBackdrop]="true">
+  <mat-drawer #drawer mode="over" position="end">
+    <div *ngIf="currentUser$ | async as user" class="user-control">
+      <span class="user">
+        <app-user-avatar [user]="user"></app-user-avatar>
+        {{ user.name }}
+      </span>
+      <button mat-icon-button type="button" [matMenuTriggerFor]="userMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #userMenu>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Log Out
+        </button>
+        <a mat-menu-item [routerLink]="['/notifications']">
+          <mat-icon>notifications</mat-icon>
+          Notification Settings
+        </a>
+        <a mat-menu-item [routerLink]="['/inbox']">
+          <mat-icon>inbox</mat-icon>
+          Inbox
+        </a>
+        <a mat-menu-item [routerLink]="['/profile']">
+          <mat-icon>person</mat-icon>
+          Profile
+        </a>
+      </mat-menu>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-selection-list
+      *ngIf="isAuthenticated"
+      [multiple]="false"
+      [hideSingleSelectionIndicator]="true"
+    >
+      <mat-list-option
+        [selected]="isOpen(page)"
+        *ngFor="let page of pageList"
+        [routerLink]="page.url"
+      >
+        {{ page.label }}
+      </mat-list-option>
+    </mat-selection-list>
+    <ng-content select="[drawer]"></ng-content>
+  </mat-drawer>
+  <mat-drawer-content>
+    <ng-content select="[page]"></ng-content>
+  </mat-drawer-content>
+</mat-drawer-container>

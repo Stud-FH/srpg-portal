@@ -1,0 +1,192 @@
+<app-page header="Notifications">
+  <div page>
+    <mat-accordion *ngIf="currentUser; else spinner">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>language</mat-icon>
+            Region Filter
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <form>
+          <mat-selection-list [formControl]="regionWhitelist">
+            <mat-list-option *ngFor="let region of Regions" [value]="region">
+              {{ region }}
+            </mat-list-option>
+          </mat-selection-list>
+        </form>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>event</mat-icon>
+            Calendar Filter
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <form>
+          <mat-button-toggle-group
+            [formControl]="calendarFilterMode"
+            class="calendar-filter-mode"
+          >
+            <mat-button-toggle [value]="null">Off</mat-button-toggle>
+            <mat-button-toggle value="Weekday">Weekday</mat-button-toggle>
+            <mat-button-toggle value="Synchronized"
+              >Synchronized</mat-button-toggle
+            >
+          </mat-button-toggle-group>
+        </form>
+        <ng-container *ngIf="calendarFilterMode.value === 'Weekday'">
+          <mat-selection-list [formControl]="weekdayWhitelist">
+            <mat-list-option *ngFor="let weekday of Weekdays" [value]="weekday">
+              {{ weekday }}
+            </mat-list-option>
+          </mat-selection-list>
+        </ng-container>
+        <ng-container *ngIf="calendarFilterMode.value === 'Synchronized'">
+          <span *ngIf="calendarSyncConfigured.value" class="h-spread">
+            <span class="h-align">
+              <mat-icon>check_circle_outline</mat-icon>
+              Enabled
+            </span>
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="removeCalendarSync()"
+            >
+              <mat-icon>cancel</mat-icon>
+              Remove
+            </button>
+          </span>
+
+          <span *ngIf="!calendarSyncConfigured.value" class="h-spread">
+            <span></span>
+
+            <button
+              mat-stroked-button
+              *ngIf="!calendarSyncConfigured.value"
+              type="button"
+              (click)="configureCalendarSync()"
+            >
+              <mat-icon>build</mat-icon>
+              Configure
+            </button>
+          </span>
+        </ng-container>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>interests</mat-icon>
+            Interest-based Notifications
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item
+            *ngFor="let interest of interests"
+            class="interest-row"
+          >
+            <span class="h-spread">
+              <span class="h-align">
+                <mat-icon>{{ interestIcon(interest) }}</mat-icon>
+                {{ interestName(interest) }}
+              </span>
+              <span class="h-align">
+                <button
+                  mat-stroked-button
+                  type="button"
+                  class="delete-button"
+                  (click)="removeInterest(interest)"
+                >
+                  <mat-icon>delete</mat-icon>
+                  Remove
+                </button>
+                <button
+                  mat-stroked-button
+                  type="button"
+                  (click)="configureInterest(interest)"
+                >
+                  <mat-icon>build</mat-icon>
+                  Configure
+                </button>
+              </span>
+            </span>
+          </mat-list-item>
+          <mat-list-item>
+            <span class="h-spread">
+              <span></span>
+              <button
+                mat-stroked-button
+                type="button"
+                (click)="addInterest()"
+                *ngIf="!addingInterest; else smallSpinner"
+              >
+                <mat-icon>add</mat-icon>
+                Add Interest
+              </button>
+            </span>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>person</mat-icon>
+            Friend-based Notifications ({{
+              enableFriendBasedNotifications.value ? "Enabled" : "Disabled"
+            }})
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <form>
+          <mat-slide-toggle [formControl]="enableFriendBasedNotifications">
+            Enable Friend-Based Notifications
+          </mat-slide-toggle>
+          <mat-form-field *ngIf="!addingFriend; else smallSpinner">
+            <input
+              matInput
+              placeholder="Add a Friend"
+              [formControl]="addFriend"
+              [matAutocomplete]="addFriendAutocomplete"
+            />
+            <mat-icon matSuffix>search</mat-icon>
+            <mat-autocomplete #addFriendAutocomplete>
+              <mat-option
+                *ngFor="let option of addFriendOptions"
+                [value]="option"
+              >
+                <span class="h-align">
+                  <app-user-avatar [user]="option"> </app-user-avatar>
+                  {{ option.name }}
+                </span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+        <span mat-subheader>My Friends</span>
+        <mat-list *ngIf="friendIds.length > 0; else noFriends">
+          <mat-list-item *appResolveUser="friendIds; let user">
+            <span class="h-align">
+              <app-user-avatar [user]="user"> </app-user-avatar>
+              {{ user.name }}
+            </span>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <ng-template #smallSpinner>
+      <div class="spinner-container">
+        <mat-spinner [diameter]="32"></mat-spinner>
+      </div>
+    </ng-template>
+    <ng-template #spinner>
+      <div class="spinner-container">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
+    <ng-template #noFriends>
+      <div class="spinner-container">
+        You haven't asked anyone to be your friend yet.
+      </div>
+    </ng-template>
+  </div>
+</app-page>

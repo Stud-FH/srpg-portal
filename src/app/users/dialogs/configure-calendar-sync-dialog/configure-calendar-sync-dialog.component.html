@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Pseudo Calendar Synchronization</h1>
+<mat-dialog-content>
+  <ng-container [ngSwitch]="true">
+    <span *ngSwitchCase="connected" class="h-align">
+      <mat-icon>check_circle_outline</mat-icon>
+      Connected
+    </span>
+    <mat-spinner *ngSwitchCase="connecting"></mat-spinner>
+    <button
+      mat-raised-button
+      *ngSwitchDefault
+      type="button"
+      (click)="connect()"
+    >
+      <mat-icon>sync_alt</mat-icon>
+      Connect
+    </button>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button type="button" (click)="cancel()">Cancel</button>
+  <button mat-button type="button" (click)="submit()" [disabled]="!connected">
+    Ok
+  </button>
+</mat-dialog-actions>

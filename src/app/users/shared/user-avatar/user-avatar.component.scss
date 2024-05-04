@@ -1,0 +1,16 @@
+:host {
+  display: contents;
+}
+
+.avatar-image {
+  width: 42px;
+  min-width: 42px;
+  max-width: 42px;
+  height: 42px;
+  min-height: 42px;
+  max-height: 42px;
+  border-radius: 50%;
+  color: transparent;
+  border: 3px solid gray;
+  background-size: cover;
+}

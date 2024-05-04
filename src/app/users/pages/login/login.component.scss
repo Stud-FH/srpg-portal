@@ -1,0 +1,48 @@
+:host {
+  display: contents;
+}
+
+[page] {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+mat-card {
+  width: max-content;
+}
+
+mat-card-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding-top: 16px;
+}
+
+mat-selection-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+mat-list-option {
+  height: fit-content !important;
+
+  .option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+}
+
+.selectable {
+  cursor: pointer;
+}

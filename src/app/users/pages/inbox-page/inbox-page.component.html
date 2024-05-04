@@ -1,0 +1,33 @@
+<app-page header="Inbox" url="/inbox">
+  <div page>
+    <mat-list *ngIf="user; else spinner">
+      <mat-list-item *ngFor="let notification of user.inbox" class="hoverable">
+        <span class="h-spread">
+          <span class="h-align">
+            <a
+              mat-icon-button
+              [routerLink]="notification.routerLink"
+              class="reveal-on-hover"
+            >
+              <mat-icon>arrow_forward</mat-icon>
+            </a>
+            {{ notification.message }}
+          </span>
+          <button
+            mat-icon-button
+            type="button"
+            (click)="remove(notification)"
+            class="reveal-on-hover"
+          >
+            <mat-icon>clear</mat-icon>
+          </button>
+        </span>
+      </mat-list-item>
+    </mat-list>
+    <ng-template #spinner>
+      <span class="center">
+        <mat-spinner></mat-spinner>
+      </span>
+    </ng-template>
+  </div>
+</app-page>

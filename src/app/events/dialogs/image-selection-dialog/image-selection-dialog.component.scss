@@ -1,0 +1,26 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+mat-dialog-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.image {
+  width: 150px;
+  height: 150px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: transparent;
+  overflow: hidden;
+}
