@@ -47,6 +47,16 @@ mat-dialog-actions {
   justify-content: flex-end !important;
 }
 
+mat-icon.large-icon {
+  font-size: 100px !important;
+  width: 100px !important;
+  height: 100px !important;
+}
+
+.opacity-50 {
+  opacity: 0.5;
+}
+
 .h-align {
   display: flex;
   flex-direction: row;

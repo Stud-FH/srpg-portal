@@ -1,69 +1,24 @@
 <app-page header="SwissRPG Portal" url="/dashboard" [disableNav]="true">
   <div page>
     <a mat-button [routerLink]="['/upcoming']">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title> Upcoming </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-image
-            url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBc3Z6uvROAD4GekjWsXnlbCiDROKpWdzmK6eThySMiA&s"
-            [height]="200"
-          ></app-image>
-        </mat-card-content>
-      </mat-card>
+      <mat-icon class="large-icon opacity-50">event</mat-icon>
+      <mat-label> Upcoming </mat-label>
     </a>
     <a mat-button [routerLink]="['/notifications']">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title> Notifications </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-image
-            url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBc3Z6uvROAD4GekjWsXnlbCiDROKpWdzmK6eThySMiA&s"
-            [height]="200"
-          ></app-image>
-        </mat-card-content>
-      </mat-card>
+      <mat-icon class="large-icon opacity-50">notifications</mat-icon>
+      <mat-label> Notifications </mat-label>
     </a>
     <a mat-button [routerLink]="['/profile']">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title> Profile </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-image
-            url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBc3Z6uvROAD4GekjWsXnlbCiDROKpWdzmK6eThySMiA&s"
-            [height]="200"
-          ></app-image>
-        </mat-card-content>
-      </mat-card>
+      <mat-icon class="large-icon opacity-50">person</mat-icon>
+      <mat-label> Profile </mat-label>
     </a>
     <a mat-button [routerLink]="['/shop']">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title> Merch Shop </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-image
-            url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBc3Z6uvROAD4GekjWsXnlbCiDROKpWdzmK6eThySMiA&s"
-            [height]="200"
-          ></app-image>
-        </mat-card-content>
-      </mat-card>
+      <mat-icon class="large-icon opacity-50">shopping_cart</mat-icon>
+      <mat-label> Merchandise </mat-label>
     </a>
     <a mat-button [routerLink]="['/support']">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title> Support Us </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-image
-            url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBc3Z6uvROAD4GekjWsXnlbCiDROKpWdzmK6eThySMiA&s"
-            [height]="200"
-          ></app-image>
-        </mat-card-content>
-      </mat-card>
+      <mat-icon class="large-icon opacity-50">volunteer_activism</mat-icon>
+      <mat-label> Support Us </mat-label>
     </a>
   </div>
 </app-page>
