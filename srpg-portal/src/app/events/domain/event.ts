@@ -26,6 +26,7 @@ export interface SrpgEvent {
   title: string;
   description: string;
   imageUrl: string;
+  beginnerFriendly: boolean;
   tags?: string[];
 
   recurrences: SrpgEventRecurrence[];

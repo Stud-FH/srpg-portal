@@ -67,12 +67,14 @@ export class CreateEventComponent implements OnInit {
     { value: '', disabled: true },
     Validators.required
   );
+  readonly beginnerFriendly = new FormControl<boolean>(false);
   readonly tags = new FormControl<string[]>([]);
 
   readonly announcementGroup = this.formBuilder.group({
     title: this.title,
     description: this.description,
     imageUrl: this.imageUrl,
+    beginnerFriendly: this.beginnerFriendly,
     tags: this.tags,
   });
 
