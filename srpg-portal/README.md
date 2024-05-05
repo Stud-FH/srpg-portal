@@ -2,26 +2,25 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.7.
 
-## Development server
+## Installing Software Dependencies
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+make sure you have NPM installed on your computer. You can check by running `npm --version`.
 
-## Code scaffolding
+In the unlikely case NPM is missing, please download Node.js and NPM by following the instructions on https://docs.npmjs.com/downloading-and-installing-node-js-and-npm.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Afterwards, open a terminal in the src directory and run `npm install`.
 
-## Build
+## Running the Application
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `ng serve --open` in the src directory. 
 
-## Running unit tests
+## Remarks
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. Data is not persisted. Refreshing the page results in all changes being lost.
+2. We do not hold any copyright for the used images.
 
 ## Further help
+
+Contact us about any questions, or if you have difficulties with the deployment!
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
