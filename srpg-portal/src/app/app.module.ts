@@ -57,6 +57,7 @@ import { SupportUsPageComponent } from './community/pages/support-us-page/suppor
 import { InboxPageComponent } from './users/pages/inbox-page/inbox-page.component';
 import { ProfilePageComponent } from './users/pages/profile-page/profile-page.component';
 import { AboutMeDialogComponent } from './users/dialogs/about-me-dialog/about-me-dialog.component';
+import { StartConversationDialogComponent } from './users/dialogs/start-conversation-dialog/start-conversation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { AboutMeDialogComponent } from './users/dialogs/about-me-dialog/about-me
     InboxPageComponent,
     ProfilePageComponent,
     AboutMeDialogComponent,
+    StartConversationDialogComponent,
   ],
   imports: [
     BrowserModule,

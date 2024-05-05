@@ -97,6 +97,8 @@
                     *ngIf="!isSelf(user)"
                     matTooltip="Start a Conversation"
                     class="reveal-on-hover"
+                    type="button"
+                    (click)="openConversation(user)"
                   >
                     <mat-icon>chat</mat-icon>
                   </button>

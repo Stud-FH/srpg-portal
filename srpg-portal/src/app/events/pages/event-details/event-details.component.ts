@@ -17,6 +17,7 @@ import { CurrentUserService } from 'src/app/users/current-user.service';
 import { User } from 'src/app/users/domain/user';
 import { MatDialog } from '@angular/material/dialog';
 import { AboutMeDialogComponent } from 'src/app/users/dialogs/about-me-dialog/about-me-dialog.component';
+import { StartConversationDialogComponent } from 'src/app/users/dialogs/start-conversation-dialog/start-conversation-dialog.component';
 
 @Component({
   selector: 'app-event-details',
@@ -91,6 +92,11 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   async openAboutMe(user: User) {
     const ref = this.matDialog.open(AboutMeDialogComponent, { data: user });
+    await lastValueFrom(ref.afterClosed());
+  }
+
+  async openConversation(user: User) {
+    const ref = this.matDialog.open(StartConversationDialogComponent, { data: user });
     await lastValueFrom(ref.afterClosed());
   }
 

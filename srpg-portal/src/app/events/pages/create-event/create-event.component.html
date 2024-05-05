@@ -142,25 +142,14 @@
       >
         <ng-template matStepLabel>Location</ng-template>
         <span class="step-container">
-          <mat-slide-toggle
-            matTooltip="activate if you only want to hide the location from non-participants"
-            [formControl]="locationPrivate"
-          >
-            Private
-          </mat-slide-toggle>
-          <mat-form-field>
-            <mat-label>Location</mat-label>
-            <input
-              matInput
-              [matAutocomplete]="locationAutocomplete"
-              [formControl]="location"
-            />
-            <mat-autocomplete #locationAutocomplete>
-              <mat-option *ngFor="let option of locationOptions">
-                {{ option }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+          <span class="v-align">
+
+            <mat-icon class="large-icon opacity-50">construction</mat-icon>
+            <span class="placeholder-text">
+              Not implemented yet. <br/>
+              See our Figma Prototype to get an idea how this feature could look like.
+            </span>
+          </span>
         </span>
         <div class="stepper-control">
           <button mat-button matStepperPrevious type="button">Back</button>

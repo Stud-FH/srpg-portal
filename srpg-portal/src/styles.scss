@@ -65,6 +65,14 @@ mat-icon.large-icon {
   gap: 16px;
 }
 
+.v-align {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 0;
+  gap: 16px;
+}
+
 .h-spread {
   display: flex;
   flex-direction: row;
