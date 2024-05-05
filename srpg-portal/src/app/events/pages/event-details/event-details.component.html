@@ -94,9 +94,8 @@
                   <span *ngSwitchDefault></span>
                   <button
                     mat-icon-button
-                    *ngIf="!isSelf(user)"
+                    *ngIf="user.id === event.organizerId && !isSelf(user)"
                     matTooltip="Start a Conversation"
-                    class="reveal-on-hover"
                     type="button"
                     (click)="openConversation(user)"
                   >
