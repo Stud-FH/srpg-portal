@@ -7,7 +7,7 @@ export const authGuard: CanActivateFn = async (route) => {
   const authService = inject(AuthService);
   return (
     authService.isAuthenticated ||
-    (await authService.redirectToLogin(route.url[0].toString()))
+    (await authService.redirectToLogin(route.url[0]?.toString() ?? '/dashboard'))
   );
 };
 
