@@ -1,0 +1,5 @@
+obj/
+bin/
+
+discord-client.json
+mariadb-client.json
