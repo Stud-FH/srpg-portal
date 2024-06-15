@@ -1,5 +1,6 @@
 obj/
 bin/
+log/
 
-discord-client.json
-mariadb-client.json
+// configuration files
+appsettings.*.json

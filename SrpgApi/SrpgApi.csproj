@@ -34,11 +34,7 @@
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="6.2.0" />
     <PackageReference Include="AspNet.Security.OAuth.Discord" Version="5.0.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DotnetGenerators\CodeGeneration.csproj" />
-  </ItemGroup>
-
 
 </Project>

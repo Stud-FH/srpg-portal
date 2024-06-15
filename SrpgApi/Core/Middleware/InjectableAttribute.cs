@@ -4,7 +4,6 @@ using Autofac;
 using Autofac.Core.Resolving.Pipeline;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NLog;
-using SrpgApi.Core.Utility;
 
 namespace SrpgApi.Core.Middleware;
 
@@ -26,9 +25,14 @@ public enum Scope
     InstancePerDependency,
 }
 
-[LogConfig(Severity.Debug)]
+[AttributeUsage(AttributeTargets.Method)]
+public sealed class OnInitAttribute : Attribute
+{}
+
 public class RequiredFieldResolvingMiddlewareSource : IResolveMiddleware
 {
+    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
     public PipelinePhase Phase => PipelinePhase.Activation;
 
     public async void Execute(ResolveRequestContext context, Action<ResolveRequestContext> next)
@@ -46,37 +50,31 @@ public class RequiredFieldResolvingMiddlewareSource : IResolveMiddleware
             {
                 info.SetValue(instance, resolve(info.FieldType));
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(
-                    "Error while injecting field " + info + " declared in " + info.DeclaringType +
-                    (info.DeclaringType != instance.GetType() ? " of instance of type " + instance.GetType() : string.Empty),
-                    e);
+                Logger.Error($"Failed to inject {info.Name} at {info.DeclaringType}");
+                throw;
             }
         }
     }
 
     public static async Task CallOnActivatedMethod(object instance)
     {
-        foreach (var info in instance.GetType().GetMethods())
+        foreach (var info in instance.GetType().GetMethods().Where(i => Attribute.IsDefined(i, typeof(OnInitAttribute))))
         {
-            if (Attribute.IsDefined(info, typeof(Register.OnActivatedAttribute)))
+            try
             {
-                try
-                {
-                    var returnValue = info.Invoke(instance, null);
+                var returnValue = info.Invoke(instance, null);
 
-                    if (returnValue is Task task)
-                    {
-                        await task;
-                    }
-                }
-                catch (Exception e)
+                if (returnValue is Task task)
                 {
-                    throw new Exception(
-                        "Error while invoking method " + info + " declared in " + info.DeclaringType,
-                        e);
+                    await task;
                 }
+            }
+            catch (Exception)
+            {
+                Logger.Error($"Failed to call init method {info.Name} at {info.DeclaringType}");
+                throw;
             }
         }
     }
@@ -90,15 +88,5 @@ public class RequiredFieldResolvingMiddlewareSource : IResolveMiddleware
                 pipeline.Use(new RequiredFieldResolvingMiddlewareSource());
             };
         };
-    }
-}
-
-public class RequiredFieldResolvingActionFilter : IAsyncActionFilter
-{
-    /// <inheritdoc/>
-    public Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-    {
-        RequiredFieldResolvingMiddlewareSource.InjectFields(context.Controller, context.HttpContext.RequestServices.GetRequiredService);
-        return next();
     }
 }

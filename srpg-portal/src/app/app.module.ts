@@ -58,6 +58,10 @@ import { InboxPageComponent } from './users/pages/inbox-page/inbox-page.componen
 import { ProfilePageComponent } from './users/pages/profile-page/profile-page.component';
 import { AboutMeDialogComponent } from './users/dialogs/about-me-dialog/about-me-dialog.component';
 import { StartConversationDialogComponent } from './users/dialogs/start-conversation-dialog/start-conversation-dialog.component';
+import { AuthConfig, OAuthModule } from 'angular-oauth2-oidc';
+import { CallbackComponent } from './auth/callback/callback.component';
+import { authConfig } from './auth/auth-config';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -85,9 +89,12 @@ import { StartConversationDialogComponent } from './users/dialogs/start-conversa
     ProfilePageComponent,
     AboutMeDialogComponent,
     StartConversationDialogComponent,
+    CallbackComponent,
   ],
   imports: [
     BrowserModule,
+    OAuthModule.forRoot(),
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatIconModule,
@@ -122,7 +129,7 @@ import { StartConversationDialogComponent } from './users/dialogs/start-conversa
     MatTooltipModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [{ provide: AuthConfig, useValue: authConfig }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

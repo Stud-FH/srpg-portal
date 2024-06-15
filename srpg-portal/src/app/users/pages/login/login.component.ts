@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from '../../auth.service';
 import { UserService } from '../../user.service';
 import { Subscription } from 'rxjs';
 import { User } from '../../domain/user';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { authConfig } from 'src/app/auth/auth-config';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,28 +20,22 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly userService: UserService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private oauthService: OAuthService
   ) {}
 
-  ngOnInit(): void {
-    this.subscription = this.userService
-      .getUsers()
-      .subscribe((users) => (this.users = users));
-    this.subscription.add(
-      this.authService.authenticatedUserId$.subscribe((userId) => {
-        if (userId != null) {
-          this.authService.leaveLoginPage();
-        }
-      })
-    );
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 
+  async discordLogin() {
+    await this.authService.pkce();
+  }
+
   async login(user: User) {
     this.loginInProcess = user.name;
-    await this.authService.login(user);
+    // await this.authService.login(user);
   }
 }

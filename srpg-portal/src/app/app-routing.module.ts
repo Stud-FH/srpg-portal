@@ -7,6 +7,7 @@ import { DashboardComponent } from './main/dashboard/dashboard.component';
 import { UserRoutes } from './users/user-routes';
 import { CommunityRoutes } from './community/community-routes';
 import { MerchRoutes } from './merch/merch-routes';
+import { CallbackComponent } from './auth/callback/callback.component';
 
 const routes: Routes = [
   {
@@ -14,7 +15,11 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: '',
+    path: 'callback',
+    component: CallbackComponent,
+  },
+  {
+    path: 'x',
     canActivate: [authGuard],
     children: [
       {

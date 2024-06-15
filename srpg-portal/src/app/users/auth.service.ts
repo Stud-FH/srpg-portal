@@ -1,10 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivateFn, Router } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { User } from './domain/user';
 import { Observable, ReplaySubject } from 'rxjs';
 
 export const authGuard: CanActivateFn = async (route) => {
   const authService = inject(AuthService);
+  console.error('authGuard');
   return (
     authService.isAuthenticated ||
     (await authService.redirectToLogin(route.url[0]?.toString() ?? '/dashboard'))
